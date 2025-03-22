@@ -1,53 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>⚠ Virus Detected! ⚠</title>
+    <title>Loading...</title>
     <style>
         body { background-color: red; text-align: center; color: white; font-size: 24px; padding-top: 50px; font-family: monospace; }
-        .alert { animation: blink 1s infinite; font-weight: bold; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .loading-text { font-size: 30px; margin-top: 20%; }
         .spinner { margin: 20px auto; width: 50px; height: 50px; border: 5px solid white; border-top: 5px solid black; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        button { padding: 10px 20px; font-size: 18px; background: black; color: white; border: none; cursor: pointer; }
+        #main-content { display: none; }
+        .alert { animation: blink 1s infinite; font-weight: bold; }
+        @keyframes blink { 50% { opacity: 0; } }
+        button { padding: 10px 20px; font-size: 18px; background: black; color: white; border: none; cursor: pointer; margin: 10px; }
         button:hover { background: white; color: black; }
         #hacking { text-align: left; margin: 20px; white-space: pre-line; }
     </style>
 </head>
 <body>
-    <h1 class="alert">⚠ WARNING: Your Device is Infected! ⚠</h1>
-    <p>System is being scanned...</p>
-    <div class="spinner"></div>
-    <p>Loading... Please wait...</p>
-    <button onclick="fakeFix()">Fix Now</button>
 
-    <h2>Hacking in Progress...</h2>
-    <pre id="hacking"></pre>
+    <!-- Pehli Loading Screen -->
+    <div id="loading-screen">
+        <p class="loading-text">Loading... Please wait...</p>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Virus Alert Page -->
+    <div id="main-content">
+        <h1 class="alert">⚠ WARNING: Your Device is Infected! ⚠</h1>
+        <p>System is being scanned...</p>
+        <div class="spinner"></div>
+        <p>Loading... Please wait...</p>
+        <button onclick="fakeFix()">Fix Now</button>
+        <button onclick="stopPrank()">STOP</button>
+
+        <h2>Hacking in Progress...</h2>
+        <pre id="hacking"></pre>
+    </div>
 
     <script>
+        // Fake Loading Screen (3 sec baad virus page open hoga)
+        setTimeout(() => {
+            document.getElementById("loading-screen").style.display = "none";
+            document.getElementById("main-content").style.display = "block";
+            startHacking();
+            startPopups(); // Jaldi jaldi popups chalane ka function
+        }, 3000);
+
         function fakeFix() { 
             alert("Error! Cannot Remove Virus! 😈"); 
             setTimeout(() => { alert("System Crash Imminent! 💀"); }, 2000);
         }
 
-        // Vibrates every 5 sec
-        setInterval(() => { navigator.vibrate(200); }, 5000); 
+        function stopPrank() {
+            alert("Prank Stopped! 😂");
+            location.reload();  // Page refresh karke prank stop kar dega
+        }
 
-        // Fake virus warning after 10 sec
-        setTimeout(() => { alert("Your Data is at Risk! 😵‍💫"); }, 10000);
+        // Vibrates every 3 sec (pehle 5 sec thi)
+        let vibrateInterval = setInterval(() => { navigator.vibrate(200); }, 3000);
+
+        // Jaldi jaldi popups start karne ka function
+        function startPopups() {
+            setInterval(() => {
+                alert("⚠ Your Data is at Risk! 😵‍💫");
+            }, 1500); // Har 1.5 sec baad popup
+        }
 
         // Fake Hacking Text Animation
         let text = "Initializing Hack...\nBypassing Firewall...\nAccessing Database...\nInjecting Malware...\nSystem Compromised! 😈";
         let i = 0;
-        function typeEffect() {
-            if (i < text.length) {
-                document.getElementById("hacking").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeEffect, 100);
-            } else {
-                setTimeout(() => { alert("ACCESS DENIED! You got pranked! 😂"); }, 2000);
+        function startHacking() {
+            function typeEffect() {
+                if (i < text.length) {
+                    document.getElementById("hacking").innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeEffect, 100);
+                } else {
+                    setTimeout(() => { alert("ACCESS DENIED! You got pranked! 😂"); }, 2000);
+                }
             }
+            typeEffect();
         }
-        typeEffect();
     </script>
 </body>
 </html>
